@@ -25,13 +25,13 @@ public class PencilTest {
     public void write_appendsToWrittenText() {
         // Arrange
         Pencil pencil = new Pencil();
-        String text1 = "This text";
-        String text2 = " should append";
-        String expectedText = text1 + text2;
+        String presetText = "This text";
+        String appendText = " should append";
+        String expectedText = presetText + appendText;
 
         // Act
-        pencil.write(text1);
-        pencil.write(text2);
+        pencil.useExistingNote(presetText);
+        pencil.write(appendText);
         String actualText = pencil.getText();
 
         // Assert
