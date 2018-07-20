@@ -38,4 +38,36 @@ public class PencilTest {
         assertThat(actualText, is(expectedText));
     }
 
+    @Test
+    public void write_degradesDurability() {
+        // Arrange
+        int initialDurability = 20;
+        String text = "E pluribus unum";
+        Pencil pencil = new Pencil(initialDurability);
+
+        // Act
+        pencil.writeNewNote(text);
+        int remainingDurability = pencil.getDurability();
+
+        // Assert
+        assertThat(remainingDurability, is(lessThan(initialDurability)));
+    }
+
+    @Test
+    public void write_insertsSpacesAfterDurabilityExpended() {
+        // Arrange
+        int initialDurability = 1;
+        String text = "E pluribus unum";
+        Pencil pencil = new Pencil(initialDurability);
+
+        // Act
+        pencil.writeNewNote(text);
+        int remainingDurability = pencil.getDurability();
+        String actualText = pencil.getText();
+
+        // Assert
+        assertThat(remainingDurability, is(lessThanOrEqualTo(0)));
+        assertThat(actualText, is("E              "));
+    }
+
 }
