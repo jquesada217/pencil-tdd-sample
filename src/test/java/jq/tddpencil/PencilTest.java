@@ -8,9 +8,20 @@ import static org.junit.Assert.*;
 public class PencilTest {
 
     @Test
-    public void skeletonTest() {
+    public void write_appendsToWrittenText() {
+        // Arrange
         Pencil pencil = new Pencil();
+        String text1 = "This text";
+        String text2 = " should append";
+        String expectedText = text1 + text2;
 
-        assertThat(pencil, is(not(nullValue())));
+        // Act
+        pencil.write(text1);
+        pencil.write(text2);
+        String actualText = pencil.getText();
+
+        // Assert
+        assertThat(actualText, is(expectedText));
     }
+    
 }
