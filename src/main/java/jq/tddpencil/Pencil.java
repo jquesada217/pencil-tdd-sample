@@ -21,4 +21,9 @@ public class Pencil {
         sb.append(textToWrite);
         text = sb.toString();
     }
+
+    public void writeNewNote(String textToWrite) {
+        text = "";
+        write(textToWrite);
+    }
 }
