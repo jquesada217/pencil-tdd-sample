@@ -25,8 +25,8 @@ public class PencilTest {
     public void write_appendsToWrittenText() {
         // Arrange
         Pencil pencil = new Pencil();
-        String presetText = "This text";
-        String appendText = " should append";
+        String presetText = "She sells sea shells";
+        String appendText = " down by the sea shore";
         String expectedText = presetText + appendText;
 
         // Act

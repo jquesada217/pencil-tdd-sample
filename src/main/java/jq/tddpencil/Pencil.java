@@ -26,4 +26,8 @@ public class Pencil {
         text = "";
         write(textToWrite);
     }
+
+    public void useExistingNote(String note) {
+        text = note;
+    }
 }
