@@ -91,7 +91,7 @@ public class PencilTest {
         assertThat(upperRemainingDurability, is(2));
         assertThat(upperActualText, is(upperText));
 
-        assertThat(lowerRemainingDurability, is(2));
+        assertThat(lowerRemainingDurability, is(6));
         assertThat(lowerActualText, is(lowerText));
     }
 

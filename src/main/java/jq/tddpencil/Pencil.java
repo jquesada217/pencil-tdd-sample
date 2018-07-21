@@ -35,8 +35,10 @@ public class Pencil {
         char[] appendableChars = textToWrite.toCharArray();
         for (int i = 0, j = appendableChars.length; i < j; i++) {
             if (!Character.isWhitespace(appendableChars[i])) {
-                if (durability > 0) {
-                    durability--;
+                if (Character.isUpperCase(appendableChars[i]) && durability > 1) {
+                    durability -= 2;
+                } else if (Character.isLowerCase(appendableChars[i]) && durability > 0) {
+                    durability -= 1;
                 } else {
                     appendableChars[i] = ' ';
                 }
