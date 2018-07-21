@@ -5,8 +5,10 @@ public class Pencil {
     // Private state
     private int durability;
     private int length;
-    private final int MAX_LENGTH;
+    private int eraser;
     private final int MAX_DURABILITY;
+    private final int MAX_LENGTH;
+
 
     // Constructors
     public Pencil() {
@@ -26,6 +28,7 @@ public class Pencil {
         durability = MAX_DURABILITY;
         MAX_LENGTH = maxLength;
         length = MAX_LENGTH;
+        eraser = eraserLife;
     }
 
     // Property accessors
@@ -79,7 +82,11 @@ public class Pencil {
         int lastIndex = sb.lastIndexOf(textToEraseStr);
         if (lastIndex > -1) {
             for (int i = lastIndex + textToEraseStr.length() - 1; i >= lastIndex; i--) {
-                sb.setCharAt(i, ' ');
+                if (!Character.isWhitespace(sb.charAt(i)) && eraser > 0) {
+                    sb.setCharAt(i, ' ');
+                    eraser -= 1;
+                }
+
             }
         }
 
