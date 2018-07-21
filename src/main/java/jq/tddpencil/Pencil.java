@@ -18,6 +18,10 @@ public class Pencil {
     }
 
     public Pencil(int maxDurability, int maxLength) {
+        this(maxDurability, maxLength, Integer.MAX_VALUE);
+    }
+
+    public Pencil(int maxDurability, int maxLength, int eraserLife) {
         MAX_DURABILITY = maxDurability;
         durability = MAX_DURABILITY;
         MAX_LENGTH = maxLength;

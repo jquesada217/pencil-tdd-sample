@@ -160,4 +160,20 @@ public class PencilTest {
         // Assert
         assertThat(remaingText, is(expectedRemainingText));
     }
+
+    @Test
+    public void erase_doesPartialEraseWithLowEraser() {
+        // Arrange
+        String text = "Buffalo Bill";
+        String erase = "Bill";
+        String expectedRemainingText = "Buffalo B   ";
+        int initialEraserLife = 3;
+        Pencil pencil = new Pencil(10, 10, initialEraserLife);
+
+        // Act
+        String remainingText = pencil.erase(text, erase);
+
+        // Assert
+        assertThat(remainingText, is(expectedRemainingText));
+    }
 }
