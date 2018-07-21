@@ -57,7 +57,7 @@ public class PencilTest {
     public void write_insertsSpacesAfterDurabilityExpended() {
         // Arrange
         int initialDurability = 1;
-        String text = "E pluribus unum";
+        String text = "e pluribus unum";
         Pencil pencil = new Pencil(initialDurability);
 
         // Act
@@ -67,7 +67,47 @@ public class PencilTest {
 
         // Assert
         assertThat(remainingDurability, is(lessThanOrEqualTo(0)));
-        assertThat(actualText, is("E              "));
+        assertThat(actualText, is("e              "));
+    }
+
+    @Test
+    public void write_degradesDurabilityFasterForCapitals() {
+        // Arrange
+        int initialDurability = 10;
+        String upperText = "TODO";
+        String lowerText = upperText.toLowerCase();
+        Pencil upperPencil = new Pencil(initialDurability);
+        Pencil lowerPencil = new Pencil(initialDurability);
+
+        // Act
+        upperPencil.writeNewNote(upperText);
+        lowerPencil.writeNewNote(lowerText);
+        int upperRemainingDurability = upperPencil.getDurability();
+        int lowerRemainingDurability = lowerPencil.getDurability();
+        String upperActualText = upperPencil.getText();
+        String lowerActualText = lowerPencil.getText();
+
+        // Assert
+        assertThat(upperRemainingDurability, is(2));
+        assertThat(upperActualText, is(upperText));
+
+        assertThat(lowerRemainingDurability, is(2));
+        assertThat(lowerActualText, is(lowerText));
+    }
+
+    @Test
+    public void write_consumesNoDurabilityForWhitespaceCharacters() {
+        // Arrange
+        int initialDurability = 1;
+        String text = "\t \n\n \r\n   ";
+        Pencil pencil = new Pencil(initialDurability);
+
+        // Act
+        pencil.writeNewNote(text);
+        int remainingDurability = pencil.getDurability();
+
+        // Assert
+        assertThat(remainingDurability, is(initialDurability));
     }
 
 }
