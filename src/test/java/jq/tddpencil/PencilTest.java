@@ -152,4 +152,20 @@ public class PencilTest {
         assertThat(sharpenedPencilLength, is(initialPencilLength));
     }
 
+    @Test
+    public void erase_replacesTextWithSpaces() {
+        // Arrange
+        String text = "1234567890";
+        String erase = "789";
+        String expectedRemainingText = "123456   0";
+        Pencil pencil = new Pencil();
+
+        // Act
+        pencil.writeNewNote(text);
+        pencil.erase(erase);
+        String remaingText = pencil.getText();
+
+        // Assert
+        assertThat(remaingText, is(expectedRemainingText));
+    }
 }

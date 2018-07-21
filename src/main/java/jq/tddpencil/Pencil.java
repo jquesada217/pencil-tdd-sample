@@ -76,4 +76,8 @@ public class Pencil {
             System.err.println("Your pencil has been reduced to a stub.  You should get a new one");
         }
     }
+
+    public void erase(String text) {
+        
+    }
 }
