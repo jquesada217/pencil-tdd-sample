@@ -3,7 +3,6 @@ package jq.tddpencil;
 public class Pencil {
 
     // Private state
-    private String text;
     private int durability;
     private int length;
     private final int MAX_LENGTH;
@@ -19,7 +18,6 @@ public class Pencil {
     }
 
     public Pencil(int maxDurability, int maxLength) {
-        text = "";
         MAX_DURABILITY = maxDurability;
         durability = MAX_DURABILITY;
         MAX_LENGTH = maxLength;
@@ -27,10 +25,6 @@ public class Pencil {
     }
 
     // Property accessors
-    public String getText() {
-        return text;
-    }
-
     public int getDurability() {
         return durability;
     }
@@ -40,32 +34,26 @@ public class Pencil {
     }
 
     // Instance methods
-    public void write(String textToWrite) {
-        StringBuilder sb = new StringBuilder(text);
-        char[] appendableChars = textToWrite.toCharArray();
-        for (int i = 0, j = appendableChars.length; i < j; i++) {
-            if (!Character.isWhitespace(appendableChars[i])) {
-                if (Character.isUpperCase(appendableChars[i]) && durability > 1) {
+    public String write(CharSequence note, CharSequence textToWrite) {
+        StringBuffer sb = new StringBuffer(note);
+        char[] newChars = textToWrite.toString().toCharArray();
+        for (int i = 0, j = newChars.length; i < j; i++) {
+            if (!Character.isWhitespace(newChars[i])) {
+                if (Character.isUpperCase(newChars[i]) && durability > 1) {
                     durability -= 2;
                 } else if (durability > 0) {
                     durability -= 1;
                 } else {
-                    appendableChars[i] = ' ';
+                    newChars[i] = ' ';
                 }
             }
         }
 
-        sb.append(appendableChars);
-        text = sb.toString();
+        return sb.append(newChars).toString();
     }
 
-    public void writeNewNote(String textToWrite) {
-        text = "";
-        write(textToWrite);
-    }
-
-    public void useExistingNote(String note) {
-        text = note;
+    public String write(CharSequence textToWrite) {
+        return write("", textToWrite);
     }
 
     public void sharpen() {
@@ -77,7 +65,11 @@ public class Pencil {
         }
     }
 
-    public void erase(String text) {
-        
+    public String erase(CharSequence textToErase) {
+        return erase("", textToErase);
+    }
+
+    public String erase(CharSequence note, CharSequence textToErase) {
+        return "";
     }
 }

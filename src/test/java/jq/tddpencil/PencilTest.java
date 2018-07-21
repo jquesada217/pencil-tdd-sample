@@ -14,8 +14,7 @@ public class PencilTest {
         String text = "foo bar";
 
         // Act
-        pencil.writeNewNote(text);
-        String actualText = pencil.getText();
+        String actualText = pencil.write(text);
 
         // Assert
         assertThat(actualText, is(text));
@@ -30,9 +29,7 @@ public class PencilTest {
         String expectedText = presetText + appendText;
 
         // Act
-        pencil.useExistingNote(presetText);
-        pencil.write(appendText);
-        String actualText = pencil.getText();
+        String actualText = pencil.write(presetText, appendText);
 
         // Assert
         assertThat(actualText, is(expectedText));
@@ -46,7 +43,7 @@ public class PencilTest {
         Pencil pencil = new Pencil(initialDurability);
 
         // Act
-        pencil.writeNewNote(text);
+        pencil.write(text);
         int remainingDurability = pencil.getDurability();
 
         // Assert
@@ -61,9 +58,8 @@ public class PencilTest {
         Pencil pencil = new Pencil(initialDurability);
 
         // Act
-        pencil.writeNewNote(text);
+        String actualText = pencil.write(text);
         int remainingDurability = pencil.getDurability();
-        String actualText = pencil.getText();
 
         // Assert
         assertThat(remainingDurability, is(lessThanOrEqualTo(0)));
@@ -80,12 +76,10 @@ public class PencilTest {
         Pencil lowerPencil = new Pencil(initialDurability);
 
         // Act
-        upperPencil.writeNewNote(upperText);
-        lowerPencil.writeNewNote(lowerText);
+        String upperActualText = upperPencil.write(upperText);
+        String lowerActualText = lowerPencil.write(lowerText);
         int upperRemainingDurability = upperPencil.getDurability();
         int lowerRemainingDurability = lowerPencil.getDurability();
-        String upperActualText = upperPencil.getText();
-        String lowerActualText = lowerPencil.getText();
 
         // Assert
         assertThat(upperRemainingDurability, is(2));
@@ -103,7 +97,7 @@ public class PencilTest {
         Pencil pencil = new Pencil(initialDurability);
 
         // Act
-        pencil.writeNewNote(text);
+        pencil.write(text);
         int remainingDurability = pencil.getDurability();
 
         // Assert
@@ -119,7 +113,7 @@ public class PencilTest {
         Pencil pencil = new Pencil(initialDurability, initialPencilLength);
 
         // Act
-        pencil.writeNewNote(text);
+        pencil.write(text);
         int preSharpenedDurability = pencil.getDurability();
         pencil.sharpen();
         int sharpenedPencilLength = pencil.getLength();
@@ -140,7 +134,7 @@ public class PencilTest {
         Pencil pencil = new Pencil(initialDurability, initialPencilLength);
 
         // Act
-        pencil.writeNewNote(text);
+        pencil.write(text);
         int preSharpenedDurability = pencil.getDurability();
         pencil.sharpen();
         int sharpenedPencilLength = pencil.getLength();
@@ -161,9 +155,7 @@ public class PencilTest {
         Pencil pencil = new Pencil();
 
         // Act
-        pencil.writeNewNote(text);
-        pencil.erase(erase);
-        String remaingText = pencil.getText();
+        String remaingText = pencil.erase(text, erase);
 
         // Assert
         assertThat(remaingText, is(expectedRemainingText));
