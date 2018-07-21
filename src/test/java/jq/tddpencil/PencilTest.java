@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 public class PencilTest {
 
     @Test
-    public void writeNewNote_writesNewText() {
+    public void write_writesNewText() {
         // Arrange
         Pencil pencil = new Pencil();
         String text = "foo bar";

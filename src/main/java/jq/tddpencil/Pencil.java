@@ -35,7 +35,7 @@ public class Pencil {
 
     // Instance methods
     public String write(CharSequence note, CharSequence textToWrite) {
-        StringBuffer sb = new StringBuffer(note);
+        StringBuilder sb = new StringBuilder(note);
         char[] newChars = textToWrite.toString().toCharArray();
         for (int i = 0, j = newChars.length; i < j; i++) {
             if (!Character.isWhitespace(newChars[i])) {
@@ -70,6 +70,15 @@ public class Pencil {
     }
 
     public String erase(CharSequence note, CharSequence textToErase) {
-        return "";
+        StringBuilder sb = new StringBuilder(note);
+        String textToEraseStr = textToErase.toString();
+        int lastIndex = sb.lastIndexOf(textToEraseStr);
+        if (lastIndex > -1) {
+            for (int i = lastIndex + textToEraseStr.length() - 1; i >= lastIndex; i--) {
+                sb.setCharAt(i, ' ');
+            }
+        }
+
+        return sb.toString();
     }
 }
