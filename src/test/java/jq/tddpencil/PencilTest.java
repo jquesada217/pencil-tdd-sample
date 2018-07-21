@@ -110,4 +110,46 @@ public class PencilTest {
         assertThat(remainingDurability, is(initialDurability));
     }
 
+    @Test
+    public void sharpen_restoresDurabilityIfAble() {
+        // Arrange
+        int initialDurability = 10;
+        int initialPencilLength = 2;
+        String text = "1234567890";
+        Pencil pencil = new Pencil(initialDurability, initialPencilLength);
+
+        // Act
+        pencil.writeNewNote(text);
+        int preSharpenedDurability = pencil.getDurability();
+        pencil.sharpen();
+        int sharpenedPencilLength = pencil.getLength();
+        int sharpenedDurability = pencil.getDurability();
+
+        // Assert
+        assertThat(preSharpenedDurability, is(0));
+        assertThat(sharpenedDurability, is(initialDurability));
+        assertThat(sharpenedPencilLength, is(lessThan(initialPencilLength)));
+    }
+
+    @Test
+    public void sharpen_doesNotRestoreIfPencilTooShort() {
+        // Arrange
+        int initialDurability = 10;
+        int initialPencilLength = 0;
+        String text = "1234567890";
+        Pencil pencil = new Pencil(initialDurability, initialPencilLength);
+
+        // Act
+        pencil.writeNewNote(text);
+        int preSharpenedDurability = pencil.getDurability();
+        pencil.sharpen();
+        int sharpenedPencilLength = pencil.getLength();
+        int sharpenedDurability = pencil.getDurability();
+
+        // Assert
+        assertThat(preSharpenedDurability, is(0));
+        assertThat(sharpenedDurability, is(0));
+        assertThat(sharpenedPencilLength, is(initialPencilLength));
+    }
+
 }
