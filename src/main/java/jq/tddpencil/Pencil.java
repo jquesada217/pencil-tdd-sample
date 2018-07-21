@@ -5,6 +5,8 @@ public class Pencil {
     // Private state
     private String text;
     private int durability;
+    private int length;
+    private final int MAX_LENGTH;
     private final int MAX_DURABILITY;
 
     // Constructors
@@ -12,12 +14,24 @@ public class Pencil {
         text = "";
         MAX_DURABILITY = Integer.MAX_VALUE;
         durability = MAX_DURABILITY;
+        MAX_LENGTH = Integer.MAX_VALUE;
+        length = MAX_LENGTH;
     }
 
     public Pencil(int maxDurability) {
         text = "";
         MAX_DURABILITY = maxDurability;
         durability = MAX_DURABILITY;
+        MAX_LENGTH = Integer.MAX_VALUE;
+        length = MAX_LENGTH;
+    }
+
+    public Pencil(int maxDurability, int maxLength) {
+        text = "";
+        MAX_DURABILITY = maxDurability;
+        durability = MAX_DURABILITY;
+        MAX_LENGTH = maxLength;
+        length = MAX_LENGTH;
     }
 
     // Property accessors
@@ -29,6 +43,10 @@ public class Pencil {
         return durability;
     }
 
+    public int getLength() {
+        return length;
+    }
+
     // Instance methods
     public void write(String textToWrite) {
         StringBuilder sb = new StringBuilder(text);
@@ -37,7 +55,7 @@ public class Pencil {
             if (!Character.isWhitespace(appendableChars[i])) {
                 if (Character.isUpperCase(appendableChars[i]) && durability > 1) {
                     durability -= 2;
-                } else if (Character.isLowerCase(appendableChars[i]) && durability > 0) {
+                } else if (durability > 0) {
                     durability -= 1;
                 } else {
                     appendableChars[i] = ' ';
@@ -56,5 +74,14 @@ public class Pencil {
 
     public void useExistingNote(String note) {
         text = note;
+    }
+
+    public void sharpen() {
+        if (length > 0) {
+            length -= 1;
+            durability = MAX_DURABILITY;
+        } else {
+            System.err.println("Your pencil has been reduced to a stub.  You should get a new one");
+        }
     }
 }
