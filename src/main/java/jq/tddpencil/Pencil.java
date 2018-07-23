@@ -6,11 +6,10 @@ import java.util.regex.Pattern;
 public class Pencil {
 
     // Private state
-    private int durability;
+    private int graphite;
     private int length;
     private int eraser;
-    private final int MAX_DURABILITY;
-    private final int MAX_LENGTH;
+    private final int MAX_GRAPHITE;
 
 
     // Constructors
@@ -18,25 +17,24 @@ public class Pencil {
         this(Integer.MAX_VALUE, Integer.MAX_VALUE);
     }
 
-    public Pencil(int maxDurability) {
-        this(maxDurability, Integer.MAX_VALUE);
+    public Pencil(int maxGraphite) {
+        this(maxGraphite, Integer.MAX_VALUE);
     }
 
-    public Pencil(int maxDurability, int maxLength) {
-        this(maxDurability, maxLength, Integer.MAX_VALUE);
+    public Pencil(int maxGraphite, int maxLength) {
+        this(maxGraphite, maxLength, Integer.MAX_VALUE);
     }
 
-    public Pencil(int maxDurability, int maxLength, int eraserLife) {
-        MAX_DURABILITY = maxDurability;
-        durability = MAX_DURABILITY;
-        MAX_LENGTH = maxLength;
-        length = MAX_LENGTH;
+    public Pencil(int maxGraphite, int maxLength, int eraserLife) {
+        MAX_GRAPHITE = maxGraphite;
+        graphite = MAX_GRAPHITE;
+        length = maxLength;
         eraser = eraserLife;
     }
 
     // Property accessors
-    public int getDurability() {
-        return durability;
+    public int getGraphite() {
+        return graphite;
     }
 
     public int getLength() {
@@ -46,20 +44,17 @@ public class Pencil {
     // Instance methods
     public String write(CharSequence note, CharSequence textToWrite) {
         StringBuilder sb = new StringBuilder(note);
-        char[] newChars = textToWrite.toString().toCharArray();
-        for (int i = 0, j = newChars.length; i < j; i++) {
-            if (!Character.isWhitespace(newChars[i])) {
-                if (Character.isUpperCase(newChars[i]) && durability > 1) {
-                    durability -= 2;
-                } else if (durability > 0) {
-                    durability -= 1;
-                } else {
-                    newChars[i] = ' ';
-                }
+        StringBuilder writeSb = new StringBuilder(textToWrite);
+        for (int i = 0, j = writeSb.length(); i < j; i++) {
+            int cost = getCharacterCost(writeSb.charAt(i));
+            if (cost > graphite) {
+                writeSb.setCharAt(i, ' ');
+            } else {
+                graphite -= cost;
             }
         }
 
-        return sb.append(newChars).toString();
+        return sb.append(writeSb).toString();
     }
 
     public String write(CharSequence textToWrite) {
@@ -69,14 +64,10 @@ public class Pencil {
     public void sharpen() {
         if (length > 0) {
             length -= 1;
-            durability = MAX_DURABILITY;
+            graphite = MAX_GRAPHITE;
         } else {
             System.err.println("Your pencil has been reduced to a stub.  You should get a new one");
         }
-    }
-
-    public String erase(CharSequence textToErase) {
-        return erase("", textToErase);
     }
 
     public String erase(CharSequence note, CharSequence textToErase) {
@@ -97,7 +88,7 @@ public class Pencil {
 
     public String edit(CharSequence note, CharSequence textToOverwrite) {
         StringBuilder sb = new StringBuilder(note);
-        String textToOverwriteStr = textToOverwrite.toString();
+        StringBuilder textToOverwriteStr = new StringBuilder(textToOverwrite);
 
         // find a spot that was erased where new text can be inserted
         Pattern whitespacePattern = Pattern.compile("\\s{2,}");
@@ -114,16 +105,16 @@ public class Pencil {
                 if (isOverwriting) { // overwrite characters mid-string
                     char currentChar = sb.charAt(replacementStartIndex + i);
                     if (Character.isWhitespace(currentChar)) {
-                        if (durability >= cost) {
-                            durability -= cost;
+                        if (graphite >= cost) {
+                            graphite -= cost;
                             sb.setCharAt(replacementStartIndex + i, nextChar);
                         }
                     } else if (currentChar != nextChar) {
                         sb.setCharAt(replacementStartIndex + i, '@');
                     }
                 } else { // append if the replacement text extends beyond the rest of the string
-                    if (durability >= cost) {
-                        durability -= cost;
+                    if (graphite >= cost) {
+                        graphite -= cost;
                         sb.append(nextChar);
                     } else {
                         sb.append(' ');

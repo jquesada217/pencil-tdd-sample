@@ -44,7 +44,7 @@ public class PencilTest {
 
         // Act
         pencil.write(text);
-        int remainingDurability = pencil.getDurability();
+        int remainingDurability = pencil.getGraphite();
 
         // Assert
         assertThat(remainingDurability, is(lessThan(initialDurability)));
@@ -59,7 +59,7 @@ public class PencilTest {
 
         // Act
         String actualText = pencil.write(text);
-        int remainingDurability = pencil.getDurability();
+        int remainingDurability = pencil.getGraphite();
 
         // Assert
         assertThat(remainingDurability, is(lessThanOrEqualTo(0)));
@@ -78,8 +78,8 @@ public class PencilTest {
         // Act
         String upperActualText = upperPencil.write(upperText);
         String lowerActualText = lowerPencil.write(lowerText);
-        int upperRemainingDurability = upperPencil.getDurability();
-        int lowerRemainingDurability = lowerPencil.getDurability();
+        int upperRemainingDurability = upperPencil.getGraphite();
+        int lowerRemainingDurability = lowerPencil.getGraphite();
 
         // Assert
         assertThat(upperRemainingDurability, is(2));
@@ -98,7 +98,7 @@ public class PencilTest {
 
         // Act
         pencil.write(text);
-        int remainingDurability = pencil.getDurability();
+        int remainingDurability = pencil.getGraphite();
 
         // Assert
         assertThat(remainingDurability, is(initialDurability));
@@ -114,10 +114,10 @@ public class PencilTest {
 
         // Act
         pencil.write(text);
-        int preSharpenedDurability = pencil.getDurability();
+        int preSharpenedDurability = pencil.getGraphite();
         pencil.sharpen();
         int sharpenedPencilLength = pencil.getLength();
-        int sharpenedDurability = pencil.getDurability();
+        int sharpenedDurability = pencil.getGraphite();
 
         // Assert
         assertThat(preSharpenedDurability, is(0));
@@ -135,10 +135,10 @@ public class PencilTest {
 
         // Act
         pencil.write(text);
-        int preSharpenedDurability = pencil.getDurability();
+        int preSharpenedDurability = pencil.getGraphite();
         pencil.sharpen();
         int sharpenedPencilLength = pencil.getLength();
-        int sharpenedDurability = pencil.getDurability();
+        int sharpenedDurability = pencil.getGraphite();
 
         // Assert
         assertThat(preSharpenedDurability, is(0));
