@@ -1,5 +1,8 @@
 package jq.tddpencil;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class Pencil {
 
     // Private state
@@ -93,6 +96,52 @@ public class Pencil {
     }
 
     public String edit(CharSequence note, CharSequence textToOverwrite) {
-        return "";
+        StringBuilder sb = new StringBuilder(note);
+        String textToOverwriteStr = textToOverwrite.toString();
+
+        // find a spot that was erased where new text can be inserted
+        Pattern whitespacePattern = Pattern.compile("\\s{2,}");
+        Matcher matcher = whitespacePattern.matcher(sb);
+        if (matcher.find()) {
+            int replacementStartIndex = 1 + matcher.start();
+            int contentLength = sb.length();
+
+            for (int i = 0, j = textToOverwriteStr.length(); i < j; i++) {
+                boolean isOverwriting = replacementStartIndex + i < contentLength;
+                char nextChar = textToOverwriteStr.charAt(i);
+                int cost = getCharacterCost(nextChar);
+
+                if (isOverwriting) { // overwrite characters mid-string
+                    char currentChar = sb.charAt(replacementStartIndex + i);
+                    if (Character.isWhitespace(currentChar)) {
+                        if (durability >= cost) {
+                            durability -= cost;
+                            sb.setCharAt(replacementStartIndex + i, nextChar);
+                        }
+                    } else if (currentChar != nextChar) {
+                        sb.setCharAt(replacementStartIndex + i, '@');
+                    }
+                } else { // append if the replacement text extends beyond the rest of the string
+                    if (durability >= cost) {
+                        durability -= cost;
+                        sb.append(nextChar);
+                    } else {
+                        sb.append(' ');
+                    }
+                }
+            }
+        }
+
+        return sb.toString();
+    }
+
+    private int getCharacterCost(char characterToWrite) {
+        if (Character.isWhitespace(characterToWrite)) {
+            return 0;
+        } else if (Character.isUpperCase(characterToWrite)) {
+            return 2;
+        } else {
+            return 1;
+        }
     }
 }
