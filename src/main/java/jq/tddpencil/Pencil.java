@@ -86,10 +86,13 @@ public class Pencil {
                     sb.setCharAt(i, ' ');
                     eraser -= 1;
                 }
-
             }
         }
 
         return sb.toString();
+    }
+
+    public String edit(CharSequence note, CharSequence textToOverwrite) {
+        return "";
     }
 }

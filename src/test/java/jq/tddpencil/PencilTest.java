@@ -176,4 +176,34 @@ public class PencilTest {
         // Assert
         assertThat(remainingText, is(expectedRemainingText));
     }
+
+    @Test
+    public void edit_canWriteOverErasedText() {
+        // Arrange
+        String text = "An       a day keeps the doctor away";
+        String insert = "onion";
+        String expectedEditedText = "An onion a day keeps the doctor away";
+        Pencil pencil = new Pencil();
+
+        // Act
+        String editedText = pencil.edit(text, insert);
+
+        // Assert
+        assertThat(editedText, is(expectedEditedText));
+    }
+
+    @Test
+    public void edit_canOverwriteAndAppendAtEndOfString() {
+        // Arrange
+        String text = "An apple a day keeps the doctor     ";
+        String insert = "at bay";
+        String expectedEditedText = "An apple a day keeps the doctor at bay";
+        Pencil pencil = new Pencil();
+
+        // Act
+        String editedText = pencil.edit(text, insert);
+
+        // Assert
+        assertThat(editedText, is(expectedEditedText));
+    }
 }
